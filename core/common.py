@@ -33,7 +33,7 @@ def convolutional(input_layer, filters_shape, downsample=False, activate=True, b
     if bn: conv = BatchNormalization()(conv)
     if activate == True:
         if activate_type == "leaky":
-            conv = tf.nn.leaky_relu(conv, alpha=0.1)
+            conv = tf.nn.relu(conv)
         elif activate_type == "mish":
             conv = mish(conv)
     return conv
@@ -63,5 +63,5 @@ def route_group(input_layer, groups, group_id):
     return convs[group_id]
 
 def upsample(input_layer):
-    return tf.image.resize(input_layer, (input_layer.shape[1] * 2, input_layer.shape[2] * 2), method='bilinear')
+    return tf.image.resize(input_layer, (input_layer.shape[1] * 2, input_layer.shape[2] * 2), method='nearest')
 
